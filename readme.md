@@ -1,5 +1,5 @@
-# job4j_cinema
-Repository for "cinema" project:
+# job4j_cars
+Repository for "cars" project:
 
 Web app with Spring boot, Thymeleaf, Bootstrap, JDBC, Liquibase.
 
