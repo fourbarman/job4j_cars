@@ -1,8 +1,10 @@
 package ru.job4j.cars.model.repository;
 
 import lombok.AllArgsConstructor;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import ru.job4j.cars.model.User;
 import org.hibernate.query.Query;
 
