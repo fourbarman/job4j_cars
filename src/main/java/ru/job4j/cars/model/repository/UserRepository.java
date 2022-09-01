@@ -1,18 +1,21 @@
 package ru.job4j.cars.model.repository;
 
 import lombok.AllArgsConstructor;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.query.MutationQuery;
 import ru.job4j.cars.model.User;
 import org.hibernate.query.Query;
 
-import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * UserRepository.
+ *
+ * @author fourbarman (maks.java@yandex.ru).
+ * @version 1.
+ * @since 01.09.2022.
+ */
 @AllArgsConstructor
 public class UserRepository {
     private final SessionFactory sf;
@@ -27,11 +30,7 @@ public class UserRepository {
         Session session = sf.openSession();
         try {
             session.beginTransaction();
-            System.out.println(user.getLogin() + " " + user.getPassword());
-            session.createMutationQuery("INSERT INTO User (login, password) VALUES (:fLogin, :fPassword)")
-                    .setParameter("fLogin", user.getLogin())
-                    .setParameter("fPassword", user.getPassword())
-                    .executeUpdate();
+            session.persist(user);
             session.getTransaction().commit();
         } catch (Exception e) {
             session.getTransaction().rollback();
@@ -97,7 +96,6 @@ public class UserRepository {
         Session session = sf.openSession();
         Query<User> query = session.createQuery("from User where id = :fId", User.class);
         query.setParameter("fId", userId);
-        System.out.println("Found User: " + query.uniqueResult());
         return Optional.ofNullable(query.uniqueResult());
     }
 
