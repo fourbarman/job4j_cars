@@ -5,9 +5,11 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.MutationQuery;
 import ru.job4j.cars.model.User;
 import org.hibernate.query.Query;
 
+import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +27,8 @@ public class UserRepository {
         Session session = sf.openSession();
         try {
             session.beginTransaction();
-            session.createMutationQuery("INSERT INTO auto_user (login, password) VALUES (:fLogin, :fPassword)")
+            System.out.println(user.getLogin() + " " + user.getPassword());
+            session.createMutationQuery("INSERT INTO User (login, password) VALUES (:fLogin, :fPassword)")
                     .setParameter("fLogin", user.getLogin())
                     .setParameter("fPassword", user.getPassword())
                     .executeUpdate();
@@ -33,7 +36,6 @@ public class UserRepository {
         } catch (Exception e) {
             session.getTransaction().rollback();
         }
-
         return user;
     }
 
@@ -46,7 +48,7 @@ public class UserRepository {
         Session session = sf.openSession();
         try {
             session.beginTransaction();
-            session.createMutationQuery("UPDATE user_auto SET login = :fLogin, password = :fPassword WHERE id = :fId")
+            session.createMutationQuery("UPDATE User SET login = :fLogin, password = :fPassword WHERE id = :fId")
                     .setParameter("fLogin", user.getLogin())
                     .setParameter("fPassword", user.getPassword())
                     .setParameter("fId", user.getId())
@@ -66,7 +68,7 @@ public class UserRepository {
         Session session = sf.openSession();
         try {
             session.beginTransaction();
-            session.createMutationQuery("DELETE user_auto WHERE id = :fId")
+            session.createMutationQuery("DELETE User WHERE id = :fId")
                     .setParameter("fId", userId)
                     .executeUpdate();
             session.getTransaction().commit();
@@ -81,7 +83,9 @@ public class UserRepository {
      * @return список пользователей.
      */
     public List<User> findAllOrderById() {
-        return List.of();
+        Session session = sf.openSession();
+        Query<User> query = session.createQuery("from User ORDER BY id", User.class);
+        return query.list();
     }
 
     /**
@@ -93,6 +97,7 @@ public class UserRepository {
         Session session = sf.openSession();
         Query<User> query = session.createQuery("from User where id = :fId", User.class);
         query.setParameter("fId", userId);
+        System.out.println("Found User: " + query.uniqueResult());
         return Optional.ofNullable(query.uniqueResult());
     }
 
@@ -105,7 +110,7 @@ public class UserRepository {
     public List<User> findByLikeLogin(String key) {
         Session session = sf.openSession();
         Query<User> query = session.createQuery("from User where login like :fKey", User.class);
-        query.setParameter("fKey", key);
+        query.setParameter("fKey", "%" + key + "%");
         return query.list();
     }
 
