@@ -1,27 +1,26 @@
 package ru.job4j.cars.model;
 
-import javax.persistence.*;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
 /**
- * User.
+ * Engine.
  *
  * @author fourbarman (maks.java@yandex.ru).
  * @version 1.
- * @since 01.09.2022.
+ * @since 02.10.2022.
  */
-@Entity
-@Table(name = "auto_user")
 @Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+@Table(name = "engine")
+public class Engine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String login;
-    private String password;
+    private String name;
 }

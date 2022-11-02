@@ -1,6 +1,6 @@
 package ru.job4j.cars.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 /**
  * Post.
  *
@@ -30,10 +31,11 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "auto_user_id")
     private User user;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "history_table_id")
     private List<PriceHistory> priceHistory;
-    @ManyToMany
+    @EqualsAndHashCode.Exclude
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "participates",
             joinColumns = { @JoinColumn(name = "auto_post_id")},

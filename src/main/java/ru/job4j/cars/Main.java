@@ -1,5 +1,10 @@
 package ru.job4j.cars;
 
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
 /**
  * Main.
  *
@@ -9,6 +14,12 @@ package ru.job4j.cars;
  */
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+                .configure().build();
+        try (SessionFactory sf = new MetadataSources(registry)
+                .buildMetadata().buildSessionFactory()) {
+        } finally {
+            StandardServiceRegistryBuilder.destroy(registry);
+        }
     }
 }

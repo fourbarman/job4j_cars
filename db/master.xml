@@ -10,4 +10,5 @@
     <include file="scripts/002_ddl_add_price_history_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/003_ddl_update_auto_post_with_history_column.sql" relativeToChangelogFile="true"/>
     <include file="scripts/004_ddl_add_participates_user_post.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/005_ddl_add_car_engine_driver_history_owner_tables.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
