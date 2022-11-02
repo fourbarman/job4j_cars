@@ -4,12 +4,17 @@
 Add FK to auto_post.
 Create car, engine, driver, owner_history tables.
 */
-ALTER TABLE auto_post ADD COLUMN car_id INT REFERENCES car(id);
-
 CREATE TABLE IF NOT EXISTS engine
 (
     id   SERIAL PRIMARY KEY,
     name TEXT
+);
+
+CREATE TABLE IF NOT EXISTS driver
+(
+    id      SERIAL PRIMARY KEY,
+    name    TEXT,
+    user_id INT NOT NULL REFERENCES auto_user (id)
 );
 
 CREATE TABLE IF NOT EXISTS car
@@ -20,12 +25,7 @@ CREATE TABLE IF NOT EXISTS car
     engine_id INT NOT NULL REFERENCES engine (id)
 );
 
-CREATE TABLE IF NOT EXISTS driver
-(
-    id      SERIAL PRIMARY KEY,
-    name    TEXT,
-    user_id INT NOT NULL REFERENCES auto_user (id)
-);
+ALTER TABLE auto_post ADD COLUMN car_id INT REFERENCES car(id);
 
 CREATE TABLE IF NOT EXISTS history_owner
 (
