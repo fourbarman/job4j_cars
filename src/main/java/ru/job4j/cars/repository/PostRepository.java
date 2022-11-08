@@ -18,39 +18,39 @@ import java.util.Optional;
 public class PostRepository {
     private final CrudRepository crudRepository;
 
-    private final String GET_ALL_DISTINCT = """
+    private static final String GET_ALL_DISTINCT = """
             distinct from Post 
             left join fetch User 
             join fetch PriceHistory 
             join fetch Car 
             join fetch Photo
             """;
-    private final String GET_ALL_BY_CURRENT_DAY = """
+    private static final String GET_ALL_BY_CURRENT_DAY = """
             select * from auto_post ap 
             where ap.created :: date = now() :: date
             """;
-    private final String GET_ALL_BY_POST_HAS_PHOTO = """
+    private static final String GET_ALL_BY_POST_HAS_PHOTO = """
             select * from auto_post ap 
             where ap.post_photo_id != null
             """;
-    private final String GET_ALL_FILTER_BY_BRAND = """
+    private static final String GET_ALL_FILTER_BY_BRAND = """
             from Post p 
             left join fetch Car c 
             where c.brand = :fBrand
             """;
-    private final String DELETE_POST_BY_ID = """
+    private static final String DELETE_POST_BY_ID = """
             delete from Post 
             where id = :fId
             """;
-    private final String FIND_POST_BY_NAME = """
+    private static final String FIND_POST_BY_NAME = """
             from Post 
             where name = :fName
             """;
-    private final String FIND_POST_BY_LIKE_NAME = """
+    private static final String FIND_POST_BY_LIKE_NAME = """
             from Post 
             where name like :fKey
             """;
-    private final String FIND_POST_BY_ID = """
+    private static final String FIND_POST_BY_ID = """
             from Post 
             where id = :fId
             """;
