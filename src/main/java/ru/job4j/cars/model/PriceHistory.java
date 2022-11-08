@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode.Include;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 /**
  * PriceHistory.
@@ -29,5 +29,5 @@ public class PriceHistory {
     private int id;
     private int before;
     private int after;
-    private LocalDateTime created;
+    private ZonedDateTime created;
 }

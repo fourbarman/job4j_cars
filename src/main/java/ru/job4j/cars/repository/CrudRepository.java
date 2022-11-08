@@ -3,6 +3,7 @@ package ru.job4j.cars.repository;
 import lombok.AllArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.annotations.QueryHints;
 
 import java.util.List;
 import java.util.Map;
@@ -86,5 +87,10 @@ public class CrudRepository {
             }
             throw e;
         }
+    }
+
+    public <T> List<T> queryDistinct(String query, Class<T> cl) {
+        Function<Session, List<T>> command = session -> session.createQuery(query, cl).setHint(QueryHints.PASS_DISTINCT_THROUGH, false).list();
+        return tx(command);
     }
 }

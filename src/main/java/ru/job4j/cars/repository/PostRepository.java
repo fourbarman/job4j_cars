@@ -18,12 +18,48 @@ import java.util.Optional;
 public class PostRepository {
     private final CrudRepository crudRepository;
 
+    private final String GET_ALL_DISTINCT = """
+            distinct from Post 
+            left join fetch User 
+            join fetch PriceHistory 
+            join fetch Car 
+            join fetch Photo
+            """;
+    private final String GET_ALL_BY_CURRENT_DAY = """
+            select * from auto_post ap 
+            where ap.created :: date = now() :: date
+            """;
+    private final String GET_ALL_BY_POST_HAS_PHOTO = """
+            select * from auto_post ap 
+            where ap.post_photo_id != null
+            """;
+    private final String GET_ALL_FILTER_BY_BRAND = """
+            from Post p 
+            left join fetch Car c 
+            where c.brand = :fBrand
+            """;
+    private final String DELETE_POST_BY_ID = """
+            delete from Post 
+            where id = :fId
+            """;
+    private final String FIND_POST_BY_NAME = """
+            from Post 
+            where name = :fName
+            """;
+    private final String FIND_POST_BY_LIKE_NAME = """
+            from Post 
+            where name like :fKey
+            """;
+    private final String FIND_POST_BY_ID = """
+            from Post 
+            where id = :fId
+            """;
     /**
-     * Добавить engine.
+     * Добавить post.
      *
      * @param post Post.
      */
-    public Post createCar(Post post) {
+    public Post createPost(Post post) {
         crudRepository.run(session -> session.persist(post));
         return post;
     }
@@ -33,7 +69,7 @@ public class PostRepository {
      *
      * @param post Post.
      */
-    public void updateCar(Post post) {
+    public void updatePost(Post post) {
         crudRepository.run(session -> session.merge(post));
     }
 
@@ -43,19 +79,16 @@ public class PostRepository {
      * @param postId ID
      */
     public void delete(int postId) {
-        crudRepository.run(
-                "delete from Post where id = :fId",
-                Map.of("fId", postId)
-        );
+        crudRepository.run(DELETE_POST_BY_ID, Map.of("fId", postId));
     }
 
     /**
-     * Список post отсортированных по id.
+     * Список post.
      *
      * @return Post list.
      */
-    public List<Post> findAllOrderById() {
-        return crudRepository.query("from Post", Post.class);
+    public List<Post> findAll() {
+        return crudRepository.query(GET_ALL_DISTINCT, Post.class);
     }
 
     /**
@@ -64,10 +97,7 @@ public class PostRepository {
      * @return Optional or post.
      */
     public Optional<Post> findById(int postId) {
-        return crudRepository.optional(
-                "from Post where id = :fId", Post.class,
-                Map.of("fId", postId)
-        );
+        return crudRepository.optional(FIND_POST_BY_ID, Post.class, Map.of("fId", postId));
     }
 
     /**
@@ -77,22 +107,40 @@ public class PostRepository {
      * @return Engine list.
      */
     public List<Post> findByLikeName(String key) {
-        return crudRepository.query(
-                "from Post where name like :fKey", Post.class,
-                Map.of("fKey", "%" + key + "%")
-        );
+        return crudRepository.query(FIND_POST_BY_LIKE_NAME, Post.class, Map.of("fKey", "%" + key + "%"));
     }
 
     /**
-     * Найти engine по name.
+     * Найти post по name.
      *
      * @param name Name.
      * @return Optional or post.
      */
     public Optional<Post> findByName(String name) {
-        return crudRepository.optional(
-                "from Post where login = :fName", Post.class,
-                Map.of("fName", name)
-        );
+        return crudRepository.optional(FIND_POST_BY_NAME, Post.class, Map.of("fName", name));
+    }
+
+    /**
+     * Найти все post за последний день.
+     * @return Post list.
+     */
+    public List<Post> findAllByCurrentDay() {
+        return crudRepository.query(GET_ALL_BY_CURRENT_DAY, Post.class);
+    }
+
+    /**
+     * Найти все posts у которых есть фото.
+     * @return Post list.
+     */
+    public List<Post> findAllByPostHasPhoto() {
+        return crudRepository.query(GET_ALL_BY_POST_HAS_PHOTO, Post.class);
+    }
+
+    /**
+     * Найти все posts определенной марки.
+     * @return Post list.
+     */
+    public List<Post> findAllByBrand(String brand) {
+        return crudRepository.query(GET_ALL_FILTER_BY_BRAND, Post.class, Map.of("fBrand", brand));
     }
 }

@@ -11,4 +11,6 @@
     <include file="scripts/003_ddl_update_auto_post_with_history_column.sql" relativeToChangelogFile="true"/>
     <include file="scripts/004_ddl_add_participates_user_post.sql" relativeToChangelogFile="true"/>
     <include file="scripts/005_ddl_add_car_engine_driver_history_owner_tables.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/006_ddl_add_photo_table_and_reference_to_todo_post_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/007_ddl_add_brand_table_and_reference_from_car_table.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

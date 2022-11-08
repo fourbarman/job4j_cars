@@ -23,7 +23,7 @@ public class EngineRepository {
      *
      * @param engine Engine
      */
-    public Engine createCar(Engine engine) {
+    public Engine createEngine(Engine engine) {
         crudRepository.run(session -> session.persist(engine));
         return engine;
     }
@@ -33,7 +33,7 @@ public class EngineRepository {
      *
      * @param engine Engine
      */
-    public void updateCar(Engine engine) {
+    public void updateEngine(Engine engine) {
         crudRepository.run(session -> session.merge(engine));
     }
 

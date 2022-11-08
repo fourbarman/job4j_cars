@@ -6,7 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,13 +28,13 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String text;
-    private LocalDateTime created;
+    private ZonedDateTime created;
     @ManyToOne
     @JoinColumn(name = "auto_user_id")
     private User user;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "history_table_id")
-    private List<PriceHistory> priceHistory;
+    @JoinColumn(name = "price_history_id")
+    private List<PriceHistory> priceHistory = new ArrayList<>();
     @EqualsAndHashCode.Exclude
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -41,5 +42,8 @@ public class Post {
             joinColumns = { @JoinColumn(name = "auto_post_id")},
             inverseJoinColumns = {@JoinColumn(name = "auto_user_id")}
     )
-    private List<User> participates;
+    private List<User> participates = new ArrayList<>();
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_photo_id")
+    private Photo photo;
 }

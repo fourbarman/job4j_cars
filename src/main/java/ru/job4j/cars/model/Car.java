@@ -6,8 +6,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Car.
@@ -27,15 +27,18 @@ public class Car {
     private int id;
     private String name;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "engine_id")
     private Engine engine;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "driver_id")
-    Driver driver;
+    private Driver driver;
     @EqualsAndHashCode.Exclude
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "history_owner",
             joinColumns = {@JoinColumn(name = "driver_id", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(name = "car_id", nullable = false, updatable = false)})
-    Set<Driver> drivers = new HashSet<>();
+    private List<Driver> drivers = new ArrayList<>();
 }
