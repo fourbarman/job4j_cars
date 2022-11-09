@@ -36,7 +36,7 @@ public class Car {
     @JoinColumn(name = "driver_id")
     private Driver driver;
     @EqualsAndHashCode.Exclude
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "history_owner",
             joinColumns = {@JoinColumn(name = "driver_id", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(name = "car_id", nullable = false, updatable = false)})

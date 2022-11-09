@@ -27,7 +27,7 @@ public class PostRepository {
             """;
     private static final String GET_ALL_BY_CURRENT_DAY = """
             select * from auto_post ap 
-            where ap.created :: date = now() :: date
+            where ap.created > current_timestamp - INTERVAL '24' HOUR
             """;
     private static final String GET_ALL_BY_POST_HAS_PHOTO = """
             select * from auto_post ap 

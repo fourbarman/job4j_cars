@@ -32,7 +32,7 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "auto_user_id")
     private User user;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "price_history_id")
     private List<PriceHistory> priceHistory = new ArrayList<>();
     @EqualsAndHashCode.Exclude
