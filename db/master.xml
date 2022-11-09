@@ -6,11 +6,19 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     <include file="scripts/001_ddl_init_schema.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/update_004.sql" relativeToChangelogFile="true"/>
     <include file="scripts/002_ddl_add_price_history_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/003_ddl_update_auto_post_with_history_column.sql" relativeToChangelogFile="true"/>
     <include file="scripts/004_ddl_add_participates_user_post.sql" relativeToChangelogFile="true"/>
     <include file="scripts/005_ddl_add_car_engine_driver_history_owner_tables.sql" relativeToChangelogFile="true"/>
     <include file="scripts/006_ddl_add_photo_table_and_reference_to_todo_post_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/007_ddl_add_brand_table_and_reference_from_car_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/008_dml_insert_brand.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/009_dml_insert_engine.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/0010_dml_insert_auto_user.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/0011_dml_insert_driver.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/0012_dml_insert_car.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/0013_dml_insert_post_photo.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/0014_dml_insert_price_history.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/0015_ddl_alter_auto_post_text_to_type_text.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/0016_insert_auto_post.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
