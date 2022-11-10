@@ -1,8 +1,4 @@
-/* Author: fourbarman */
-
-/*
-Создание таблицы participates.
-*/
+--create table participates
 create table if not exists participates
 (
     id           serial primary key,

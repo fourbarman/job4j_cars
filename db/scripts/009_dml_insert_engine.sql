@@ -1,9 +1,4 @@
-/* Author: fourbarman */
-
-/*
-Insert engine.
-*/
-
+-- Insert engine.
 insert into engine(name)
 values ('gasoline'),
        ('electric');

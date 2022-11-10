@@ -1,8 +1,4 @@
-/* Author: fourbarman */
-
-/*
- Create table engine.
- */
+-- Create table engine.
 CREATE TABLE IF NOT EXISTS engine
 (
     id   SERIAL PRIMARY KEY,
@@ -11,9 +7,8 @@ CREATE TABLE IF NOT EXISTS engine
 comment on table engine is 'Engine';
 comment on column engine.id is 'Engine identifier';
 comment on column engine.name is 'Engine name';
-/*
- Create table driver.
- */
+
+-- Create table driver.
 CREATE TABLE IF NOT EXISTS driver
 (
     id      SERIAL PRIMARY KEY,
@@ -24,9 +19,8 @@ comment on table driver is 'Car driver';
 comment on column driver.id is 'Driver identifier';
 comment on column driver.name is 'Driver name';
 comment on column driver.user_id is 'FK auto_user';
-/*
- Create table car.
- */
+
+-- Create table car.
 CREATE TABLE IF NOT EXISTS car
 (
     id        SERIAL PRIMARY KEY,
@@ -39,15 +33,13 @@ comment on column car.id is 'Car identifier';
 comment on column car.name is 'Car name';
 comment on column car.driver_id is 'FK driver';
 comment on column car.engine_id is 'FK engine';
-/*
- Alter table auto_post add FK car.
- */
+
+-- Alter table auto_post add FK car.
 ALTER TABLE auto_post
     ADD COLUMN car_id INT REFERENCES car (id);
 comment on column auto_post.car_id is 'FK car';
-/*
- Create table history_owner.
- */
+
+-- Create table history_owner.
 CREATE TABLE IF NOT EXISTS history_owner
 (
     id        SERIAL PRIMARY KEY,

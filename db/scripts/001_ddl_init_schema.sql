@@ -1,9 +1,4 @@
-/* Author: fourbarman */
-
-/*
-Create tables auto_user, auto_post.
-*/
-
+-- Create tables auto_user
 CREATE TABLE IF NOT EXISTS auto_user
 (
     id       SERIAL PRIMARY KEY,
@@ -16,6 +11,7 @@ comment on column auto_user.id is 'User identifier';
 comment on column auto_user.login is 'User login, unique';
 comment on column auto_user.password is 'User password';
 
+--create table auto_post
 CREATE TABLE IF NOT EXISTS auto_post
 (
     id           SERIAL PRIMARY KEY,

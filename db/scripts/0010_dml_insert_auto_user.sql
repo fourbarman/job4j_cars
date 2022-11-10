@@ -1,9 +1,4 @@
-/* Author: fourbarman */
-
-/*
-Insert auto_user.
-*/
-
+-- Insert auto_user.
 INSERT INTO auto_user (login, password)
 VALUES ('Ivanov', 'root');
 INSERT INTO auto_user (login, password)

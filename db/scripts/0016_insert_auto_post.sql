@@ -1,8 +1,4 @@
-/* Author: fourbarman */
-
-/*
-Insert auto_post.
-*/
+-- Insert auto_post.
 insert into auto_post(text, auto_user_id, price_history_id, car_id, post_photo_id)
 VALUES ('post1', 1, 1, 1, 1),
        ('post1', 1, 2, 1, 1),

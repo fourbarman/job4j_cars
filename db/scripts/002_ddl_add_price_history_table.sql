@@ -1,8 +1,4 @@
-/* Author: fourbarman */
-
-/*
-Create table price_history.
-*/
+-- Create tables price_history
 create table if not exists price_history
 (
     id      serial primary key,

@@ -1,9 +1,4 @@
-/* Author: fourbarman */
-
-/*
-Insert brand.
-*/
-
+-- Insert brand.
 insert into brand(name)
 values ('toyota'),
        ('bmw'),
