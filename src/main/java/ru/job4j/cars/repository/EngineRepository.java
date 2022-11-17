@@ -91,7 +91,7 @@ public class EngineRepository {
      */
     public Optional<Engine> findByName(String name) {
         return crudRepository.optional(
-                "from Engine where login = :fName", Engine.class,
+                "from Engine where name = :fName", Engine.class,
                 Map.of("fName", name)
         );
     }

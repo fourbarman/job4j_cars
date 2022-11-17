@@ -18,7 +18,7 @@
     <include file="scripts/0011_dml_insert_driver.sql" relativeToChangelogFile="true"/>
     <include file="scripts/0012_dml_insert_car.sql" relativeToChangelogFile="true"/>
     <include file="scripts/0013_dml_insert_post_photo.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/0014_dml_insert_price_history.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/0014_dml_insert_auto_post.sql" relativeToChangelogFile="true"/>
     <include file="scripts/0015_ddl_alter_auto_post_text_to_type_text.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/0016_insert_auto_post.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/0016_dml_insert_price_history.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

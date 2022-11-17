@@ -90,7 +90,7 @@ public class BrandRepository {
      */
     public Optional<Brand> findByName(String name) {
         return crudRepository.optional(
-                "from Brand where login = :fName", Brand.class,
+                "from Brand where name = :fName", Brand.class,
                 Map.of("fName", name)
         );
     }

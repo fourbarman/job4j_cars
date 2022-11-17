@@ -81,6 +81,7 @@ public class CrudRepository {
             tx.commit();
             return rsl;
         } catch (Exception e) {
+            e.printStackTrace();
             var tx = session.getTransaction();
             if (tx.isActive()) {
                 tx.rollback();

@@ -32,8 +32,11 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "auto_user_id")
     private User user;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "car_id")
+    private Car car;
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "price_history_id")
+    @JoinColumn(name = "post_id")
     private List<PriceHistory> priceHistory = new ArrayList<>();
     @EqualsAndHashCode.Exclude
     @ManyToMany(fetch = FetchType.LAZY)

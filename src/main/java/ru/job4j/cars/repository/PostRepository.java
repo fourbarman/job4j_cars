@@ -1,8 +1,12 @@
 package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
+import ru.job4j.cars.model.Brand;
 import ru.job4j.cars.model.Post;
 
+import java.sql.Timestamp;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -17,43 +21,30 @@ import java.util.Optional;
 @AllArgsConstructor
 public class PostRepository {
     private final CrudRepository crudRepository;
-
-    private static final String GET_ALL_DISTINCT = """
-            distinct from Post 
-            left join fetch User 
-            join fetch PriceHistory 
-            join fetch Car 
-            join fetch Photo
-            """;
-    private static final String GET_ALL_BY_CURRENT_DAY = """
-            select * from auto_post ap 
-            where ap.created > current_timestamp - INTERVAL '24' HOUR
-            """;
     private static final String GET_ALL_BY_POST_HAS_PHOTO = """
-            select * from auto_post ap 
-            where ap.post_photo_id != null
+            from Post p 
+            left join fetch p.photo 
+            where p.photo is not null
             """;
     private static final String GET_ALL_FILTER_BY_BRAND = """
             from Post p 
-            left join fetch Car c 
-            where c.brand = :fBrand
+            join fetch p.car c 
+            join fetch c.brand b 
+            where b.name = :fName
             """;
     private static final String DELETE_POST_BY_ID = """
             delete from Post 
             where id = :fId
             """;
-    private static final String FIND_POST_BY_NAME = """
+    private static final String FIND_POST_BY_LIKE_TEXT = """
             from Post 
-            where name = :fName
+            where text like :fKey
             """;
-    private static final String FIND_POST_BY_LIKE_NAME = """
-            from Post 
-            where name like :fKey
+    private static final String FIND_ALL_BY_DATE_TIME_PERIOD = """
+            from Post p 
+            where p.created between :fStartTimestamp and :fEndTimeStamp
             """;
-    private static final String FIND_POST_BY_ID = """
-            from Post 
-            where id = :fId
-            """;
+
     /**
      * Добавить post.
      *
@@ -88,7 +79,7 @@ public class PostRepository {
      * @return Post list.
      */
     public List<Post> findAll() {
-        return crudRepository.query(GET_ALL_DISTINCT, Post.class);
+        return crudRepository.query("from Post", Post.class);
     }
 
     /**
@@ -97,7 +88,7 @@ public class PostRepository {
      * @return Optional or post.
      */
     public Optional<Post> findById(int postId) {
-        return crudRepository.optional(FIND_POST_BY_ID, Post.class, Map.of("fId", postId));
+        return crudRepository.optional("from Post where id = :fId", Post.class, Map.of("fId", postId));
     }
 
     /**
@@ -107,25 +98,30 @@ public class PostRepository {
      * @return Engine list.
      */
     public List<Post> findByLikeName(String key) {
-        return crudRepository.query(FIND_POST_BY_LIKE_NAME, Post.class, Map.of("fKey", "%" + key + "%"));
+        return crudRepository.query(FIND_POST_BY_LIKE_TEXT, Post.class, Map.of("fKey", "%" + key + "%"));
     }
 
     /**
-     * Найти post по name.
+     * Найти post по text.
      *
-     * @param name Name.
+     * @param text Text.
      * @return Optional or post.
      */
-    public Optional<Post> findByName(String name) {
-        return crudRepository.optional(FIND_POST_BY_NAME, Post.class, Map.of("fName", name));
+    public Optional<Post> findByName(String text) {
+        return crudRepository.optional("from Post where text = :fText", Post.class, Map.of("fText", text));
     }
 
     /**
-     * Найти все post за последний день.
+     * Find Posts by in the middle of two dateTimes: EndDateTime - StartDateTime.
+     * StartDateTime should be < EndDateTime.
+     * @param startDateTime Start dateTime.
+     * @param endDateTime End dateTime
      * @return Post list.
      */
-    public List<Post> findAllByCurrentDay() {
-        return crudRepository.query(GET_ALL_BY_CURRENT_DAY, Post.class);
+    public List<Post> findAllByCurrent(ZonedDateTime startDateTime, ZonedDateTime endDateTime) {
+        return crudRepository.query(
+                FIND_ALL_BY_DATE_TIME_PERIOD,
+                Post.class, Map.of("fStartTimestamp", startDateTime, "fEndTimeStamp", endDateTime));
     }
 
     /**
@@ -140,7 +136,7 @@ public class PostRepository {
      * Найти все posts определенной марки.
      * @return Post list.
      */
-    public List<Post> findAllByBrand(String brand) {
-        return crudRepository.query(GET_ALL_FILTER_BY_BRAND, Post.class, Map.of("fBrand", brand));
+    public List<Post> findAllByBrand(String brandName) {
+        return crudRepository.query(GET_ALL_FILTER_BY_BRAND, Post.class, Map.of("fName", brandName));
     }
 }

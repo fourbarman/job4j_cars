@@ -91,7 +91,7 @@ public class CarRepository {
      */
     public Optional<Car> findByName(String name) {
         return crudRepository.optional(
-                "from Car where login = :fName", Car.class,
+                "from Car where name = :fName", Car.class,
                 Map.of("fName", name)
         );
     }
