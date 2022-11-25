@@ -10,11 +10,19 @@ import org.junit.jupiter.api.TestInstance;
 import ru.job4j.cars.model.*;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;
-
+/**
+ * PostRepositoryTest.
+ *
+ * @author fourbarman (maks.java@yandex.ru).
+ * @version 1.
+ * @since 25.11.2022.
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class PostRepositoryTest {
     private final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
@@ -86,7 +94,7 @@ class PostRepositoryTest {
 
     @Test
     void createPost() {
-        post1 = new Post(0, "text", ZonedDateTime.now(), user1, car1, List.of(priceHistory1, priceHistory2), List.of(user1), photo1);
+        post1 = new Post(0, "text", ZonedDateTime.now(), user1, car1, List.of(priceHistory1, priceHistory2), Set.of(user1), photo1);
         Post storedPost = postRepository.createPost(post1);
         assertThat(storedPost.getText()).isEqualTo(post1.getText());
     }
@@ -94,21 +102,24 @@ class PostRepositoryTest {
     @Test
     void updatePost() {
         post2 = postRepository.createPost(
-                new Post(0, "text", ZonedDateTime.now(), user2, car2, List.of(priceHistory3, priceHistory4), List.of(user2), photo2));
+                new Post(0, "text", ZonedDateTime.now(), user2, car2, List.of(priceHistory3, priceHistory4), Set.of(user2), photo2));
         String text = "updated text";
         post2.setText(text);
         postRepository.updatePost(post2);
         Optional<Post> foundPost = postRepository.findById(post2.getId());
         assertThat(foundPost).isPresent();
         assertThat(foundPost.get().getText()).isEqualTo(text);
-
     }
 
+    @Test
     void delete() {
         post3 = postRepository.createPost(
-                new Post(0, "post to delete", ZonedDateTime.now(), user3, car3, List.of(priceHistory5, priceHistory6), List.of(user3), photo3));
-        postRepository.delete(post3.getId());
-        assertThat(postRepository.findAll()).doesNotContain(post3);
+                new Post(0, "post to delete", ZonedDateTime.now(), user3, car3, List.of(priceHistory5, priceHistory6), Set.of(user3), photo3));
+        int post3Id = post3.getId();
+        postRepository.delete(post3Id);
+        List<Integer> ids = new ArrayList<>();
+        postRepository.findAll().forEach(p -> ids.add(p.getId()));
+        assertThat(ids).doesNotContain(post3Id);
     }
 
     @Test

@@ -8,7 +8,13 @@ import org.junit.jupiter.api.Test;
 import ru.job4j.cars.model.Engine;
 
 import static org.assertj.core.api.Assertions.*;
-
+/**
+ * EngineRepositoryTest.
+ *
+ * @author fourbarman (maks.java@yandex.ru).
+ * @version 1.
+ * @since 25.11.2022.
+ */
 public class EngineRepositoryTest {
     private final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
     private final SessionFactory sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();

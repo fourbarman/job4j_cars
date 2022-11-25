@@ -1,11 +1,9 @@
 package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
-import ru.job4j.cars.model.Brand;
 import ru.job4j.cars.model.Post;
+import ru.job4j.cars.model.PriceHistory;
 
-import java.sql.Timestamp;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
@@ -70,6 +68,12 @@ public class PostRepository {
      * @param postId ID
      */
     public void delete(int postId) {
+        Optional<Post> post = crudRepository.optional("from Post p left join fetch p.priceHistory where p.id = :fId", Post.class, Map.of("fId", postId));
+        if (post.isPresent()) {
+            for (PriceHistory ph : post.get().getPriceHistory()) {
+                crudRepository.run(session -> session.delete(ph));
+            }
+        }
         crudRepository.run(DELETE_POST_BY_ID, Map.of("fId", postId));
     }
 

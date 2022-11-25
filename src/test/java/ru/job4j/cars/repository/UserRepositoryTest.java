@@ -8,7 +8,13 @@ import org.junit.jupiter.api.Test;
 import ru.job4j.cars.model.User;
 
 import static org.assertj.core.api.Assertions.*;
-
+/**
+ * UserRepositoryTest.
+ *
+ * @author fourbarman (maks.java@yandex.ru).
+ * @version 1.
+ * @since 25.11.2022.
+ */
 class UserRepositoryTest {
 
     private final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();

@@ -13,7 +13,13 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-
+/**
+ * CarRepositoryTest.
+ *
+ * @author fourbarman (maks.java@yandex.ru).
+ * @version 1.
+ * @since 25.11.2022.
+ */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class CarRepositoryTest {
     private final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
