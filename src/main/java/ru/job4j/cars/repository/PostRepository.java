@@ -68,13 +68,9 @@ public class PostRepository {
      * @param postId ID
      */
     public void delete(int postId) {
-        Optional<Post> post = crudRepository.optional("from Post p left join fetch p.priceHistory where p.id = :fId", Post.class, Map.of("fId", postId));
-        if (post.isPresent()) {
-            for (PriceHistory ph : post.get().getPriceHistory()) {
-                crudRepository.run(session -> session.delete(ph));
-            }
-        }
-        crudRepository.run(DELETE_POST_BY_ID, Map.of("fId", postId));
+            String deletePriceHistory = "delete from price_history where post_id = " + postId;
+            crudRepository.run(session -> session.createNativeQuery(deletePriceHistory).executeUpdate());
+            crudRepository.run(DELETE_POST_BY_ID, Map.of("fId", postId));
     }
 
     /**
