@@ -27,4 +27,7 @@ public class PriceHistory {
     private int before;
     private int after;
     private ZonedDateTime created;
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    Post post;
 }

@@ -36,8 +36,8 @@ public class Post {
     @JoinColumn(name = "car_id")
     private Car car;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
+    //@JoinColumn(name = "post_id")
     private List<PriceHistory> priceHistory = new ArrayList<>();
 
     @EqualsAndHashCode.Exclude
@@ -52,4 +52,14 @@ public class Post {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_photo_id")
     private Photo photo;
+
+    public void addPriceHistory(PriceHistory priceHistory) {
+        this.priceHistory.add(priceHistory);
+        priceHistory.setPost(this);
+    }
+
+    public void removePriceHistory(PriceHistory priceHistory) {
+        this.priceHistory.remove(priceHistory);
+        priceHistory.setPost(null);
+    }
 }

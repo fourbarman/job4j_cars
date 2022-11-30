@@ -84,12 +84,12 @@ class PostRepositoryTest {
         photo1 = photoRepository.createPhoto(new Photo(0, new byte[1]));
         photo2 = photoRepository.createPhoto(new Photo(0, new byte[1]));
         photo3 = photoRepository.createPhoto(new Photo(0, new byte[1]));
-        priceHistory1 = priceHistoryRepository.create(new PriceHistory(0, 1, 2, ZonedDateTime.now()));
-        priceHistory2 = priceHistoryRepository.create(new PriceHistory(0, 2, 4, ZonedDateTime.now()));
-        priceHistory3 = priceHistoryRepository.create(new PriceHistory(0, 5, 6, ZonedDateTime.now()));
-        priceHistory4 = priceHistoryRepository.create(new PriceHistory(0, 7, 8, ZonedDateTime.now()));
-        priceHistory5 = priceHistoryRepository.create(new PriceHistory(0, 9, 10, ZonedDateTime.now()));
-        priceHistory6 = priceHistoryRepository.create(new PriceHistory(0, 11, 12, ZonedDateTime.now()));
+        priceHistory1 = priceHistoryRepository.create(new PriceHistory(0, 1, 2, ZonedDateTime.now(), post1));
+        priceHistory2 = priceHistoryRepository.create(new PriceHistory(0, 2, 4, ZonedDateTime.now(), post1));
+        priceHistory3 = priceHistoryRepository.create(new PriceHistory(0, 5, 6, ZonedDateTime.now(), post2));
+        priceHistory4 = priceHistoryRepository.create(new PriceHistory(0, 7, 8, ZonedDateTime.now(), post2));
+        priceHistory5 = priceHistoryRepository.create(new PriceHistory(0, 9, 10, ZonedDateTime.now(), post3));
+        priceHistory6 = priceHistoryRepository.create(new PriceHistory(0, 11, 12, ZonedDateTime.now(), post3));
     }
 
     @Test
@@ -113,9 +113,20 @@ class PostRepositoryTest {
 
     @Test
     void delete() {
-        post3 = postRepository.createPost(
-                new Post(0, "post to delete", ZonedDateTime.now(), user3, car3, List.of(priceHistory5, priceHistory6), Set.of(user3), photo3));
+        Post post = new Post();
+        post.setText("post to delete");
+        post.setCreated(ZonedDateTime.now());
+        post.setUser(user3);
+        post.setCar(car3);
+        post.addPriceHistory(priceHistory5);
+        post.addPriceHistory(priceHistory6);
+        post.setParticipates(Set.of(user3));
+        post.setPhoto(photo3);
+        post3 = postRepository.createPost(post);
         int post3Id = post3.getId();
+        for (PriceHistory ph : post3.getPriceHistory()) {
+            post3.removePriceHistory(ph);
+        }
         postRepository.delete(post3Id);
         List<Integer> ids = new ArrayList<>();
         postRepository.findAll().forEach(p -> ids.add(p.getId()));

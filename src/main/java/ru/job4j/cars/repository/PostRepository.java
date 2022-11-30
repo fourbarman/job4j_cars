@@ -68,9 +68,7 @@ public class PostRepository {
      * @param postId ID
      */
     public void delete(int postId) {
-            String deletePriceHistory = "delete from price_history where post_id = " + postId;
-            crudRepository.run(session -> session.createNativeQuery(deletePriceHistory).executeUpdate());
-            crudRepository.run(DELETE_POST_BY_ID, Map.of("fId", postId));
+        crudRepository.run(DELETE_POST_BY_ID, Map.of("fId", postId));
     }
 
     /**
@@ -114,8 +112,9 @@ public class PostRepository {
     /**
      * Find Posts by in the middle of two dateTimes: EndDateTime - StartDateTime.
      * StartDateTime should be < EndDateTime.
+     *
      * @param startDateTime Start dateTime.
-     * @param endDateTime End dateTime
+     * @param endDateTime   End dateTime
      * @return Post list.
      */
     public List<Post> findAllByCurrent(ZonedDateTime startDateTime, ZonedDateTime endDateTime) {
@@ -126,6 +125,7 @@ public class PostRepository {
 
     /**
      * Найти все posts у которых есть фото.
+     *
      * @return Post list.
      */
     public List<Post> findAllByPostHasPhoto() {
@@ -134,6 +134,7 @@ public class PostRepository {
 
     /**
      * Найти все posts определенной марки.
+     *
      * @return Post list.
      */
     public List<Post> findAllByBrand(String brandName) {

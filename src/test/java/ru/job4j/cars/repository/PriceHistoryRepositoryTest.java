@@ -28,7 +28,7 @@ class PriceHistoryRepositoryTest {
     @Test
     void create() {
         ZonedDateTime created = ZonedDateTime.now();
-        PriceHistory priceHistory = priceHistoryRepository.create(new PriceHistory(0, 200, 300, created));
+        PriceHistory priceHistory = priceHistoryRepository.create(new PriceHistory(0, 200, 300, created, null));
         assertThat(priceHistoryRepository.findById(priceHistory.getId())).isPresent();
         assertThat(priceHistoryRepository.findById(priceHistory.getId()).get()
                 .getCreated().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")))
@@ -38,7 +38,7 @@ class PriceHistoryRepositoryTest {
     @Test
     void update() {
         ZonedDateTime created = ZonedDateTime.now();
-        PriceHistory priceHistory = priceHistoryRepository.create(new PriceHistory(0, 200, 300, created));
+        PriceHistory priceHistory = priceHistoryRepository.create(new PriceHistory(0, 200, 300, created, null));
         priceHistory.setAfter(500);
         priceHistoryRepository.update(priceHistory);
         assertThat(priceHistoryRepository.findById(priceHistory.getId())).isPresent();
@@ -48,15 +48,15 @@ class PriceHistoryRepositoryTest {
     @Test
     void delete() {
         ZonedDateTime created = ZonedDateTime.now();
-        PriceHistory priceHistory = priceHistoryRepository.create(new PriceHistory(0, 200, 300, created));
+        PriceHistory priceHistory = priceHistoryRepository.create(new PriceHistory(0, 200, 300, created, null));
         priceHistoryRepository.delete(priceHistory.getId());
         assertThat(priceHistoryRepository.findAllOrderById()).doesNotContain(priceHistory);
     }
 
     @Test
     void findAllOrderById() {
-        PriceHistory priceHistory1 = priceHistoryRepository.create(new PriceHistory(0, 200, 300, ZonedDateTime.now()));
-        PriceHistory priceHistory2 = priceHistoryRepository.create(new PriceHistory(0, 100, 200, ZonedDateTime.now()));
+        PriceHistory priceHistory1 = priceHistoryRepository.create(new PriceHistory(0, 200, 300, ZonedDateTime.now(), null));
+        PriceHistory priceHistory2 = priceHistoryRepository.create(new PriceHistory(0, 100, 200, ZonedDateTime.now(), null));
         assertThat(priceHistoryRepository.findAllOrderById()).isNotEmpty();
         assertThat(priceHistoryRepository.findAllOrderById()).contains(priceHistory1, priceHistory2);
     }
@@ -64,7 +64,7 @@ class PriceHistoryRepositoryTest {
     @Test
     void findById() {
         ZonedDateTime created = ZonedDateTime.now();
-        PriceHistory priceHistory = priceHistoryRepository.create(new PriceHistory(0, 200, 300, created));
+        PriceHistory priceHistory = priceHistoryRepository.create(new PriceHistory(0, 200, 300, created, null));
         assertThat(priceHistoryRepository.findById(priceHistory.getId())).isPresent();
         assertThat(priceHistoryRepository.findById(priceHistory.getId()).get().getCreated()
                 .format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")))
