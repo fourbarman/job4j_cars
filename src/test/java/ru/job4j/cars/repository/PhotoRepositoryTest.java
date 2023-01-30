@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import ru.job4j.cars.model.Photo;
 
 import static org.assertj.core.api.Assertions.*;
+
 /**
  * PhotoRepositoryTest.
  *

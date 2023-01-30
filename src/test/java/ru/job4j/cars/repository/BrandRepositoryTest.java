@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import ru.job4j.cars.model.Brand;
 
 import static org.assertj.core.api.Assertions.*;
+
 /**
  * BrandRepositoryTest.
  *
